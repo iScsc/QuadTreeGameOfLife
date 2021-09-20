@@ -14,6 +14,8 @@ int main(int argc, char* argv[]){
     display_cell(*W.root->children[2]);
     display_cell(*W.root->children[3]);
 
-    print_ppm_img("test",W);
+    display_universe(W);
+
+    //print_ppm_img("test",W);
     return 0;
 }

@@ -8,6 +8,7 @@
 
 typedef struct cell cell;
 typedef struct world world;
+typedef struct bounds bounds;
 
 struct cell{ //origin top left, y increasing down, x incr. right 
     int level;
@@ -18,13 +19,27 @@ struct cell{ //origin top left, y increasing down, x incr. right
     //format: [top left, tr, bl, br]
 };
 
+struct bounds{
+    int x0;
+    int y0;
+    int x1;
+    int y1;
+};
+
+
 struct world{
     cell* root;
+    bounds limits;
 };
 
 /*
 PLAN:
 
+get the state of a cell (get_state --> 0 1 or 2)
+check if she will change (not in this file)
+change is state 
+    - (change_state)
+    - can need to expand bounds (change_root) then change_state
 */
 
 //init:
@@ -33,6 +48,8 @@ cell* new_cell(int level,int x,int y,bool alive);
 
 //!!! to be deleted :!!!
 cell** make_children(cell);
+
+
 
 //display:
 
@@ -50,7 +67,7 @@ void display_universe(world);
     2 outside borders so no
 */
 
-int is_alive(world w, int x, int y); 
+int get_state(world w, int x, int y);
 
 //accesses and changes:
 
@@ -58,10 +75,6 @@ cell* find_cell(world w, int x, int y);
 
 void change_state(world w, int x, int y, bool new_state);
 
-
-
-
-
-
+void change_root(world* w, int old_root_location);
 
 #endif

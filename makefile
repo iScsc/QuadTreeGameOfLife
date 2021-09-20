@@ -2,7 +2,7 @@ _DEBUG = $(if $(DEBUG),-D DEBUG,)
 _OPT = $(if $(OPT),-O3 -flto,)
 CC = gcc
 CFLAGS = -g -std=c99 -Wall $(_OPT) -I./headers $(_DEBUG)
-MFLAGS = -lm
+MFLAGS = -lm #for maths
 
 .PHONY: clean clean-img doc check-syntax compile-all launch-tests video
 
@@ -24,6 +24,11 @@ clean-img:
 
 %.o: ./tests/%.c
 	$(CC) $(CFLAGS) -o $@ -c $^
+
+#random C tests:
+random-tests: random_tests.o
+	$(CC) $(CFLAGS) -o $@ $^ $(MFLAGS)
+# ---------
 
 check-syntax: universe.o test-universe.o ppm_img.o
 

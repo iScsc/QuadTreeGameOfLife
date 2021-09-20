@@ -34,14 +34,9 @@ void display_cell(cell c){
     c.x, c.y, c.x, c.y, c.level, (c.alive ? "YES" : "NO"), (c.children==NULL ? "NO" : "YES"));
 }
 
-int* real_bounds(world w){ //NOT H DECLARED
-
-    //int bounds[4]; //bounds are top left and bottom right points
-    return NULL;
-}
-
-void display_universe(world w){
-    printf("WORLD:\n\tTop level: %d\n\tBounds: %s\n",w.root->level,"TO BE FILLED");
+void display_universe(world W){
+    printf("WORLD:\n\tTop level: %d\n\tBounds:\t%d\n\t____\n%d|\t\t%d\n\t____\n\t%d\n",
+    W.root->level,W.limits.y0,W.limits.x0,W.limits.x1,W.limits.y1);
 }
 
 //checks:
@@ -59,5 +54,7 @@ int is_alive(world w, int x, int y){
     return next->alive;
 }
 */
+
+
 //use: 
 
