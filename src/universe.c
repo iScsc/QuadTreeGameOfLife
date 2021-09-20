@@ -35,7 +35,7 @@ void display_cell(cell c){
 }
 
 void display_universe(world W){
-    printf("WORLD:\n\tTop level: %d\n\tBounds:\t%d\n\t____\n%d|\t\t%d\n\t____\n\t%d\n",
+    printf("WORLD:\n\tTop level: %d\n\tBounds:\n\t%d\n\t____\n%d|\t\t%d\n\t____\n\t%d\n",
     W.root->level,W.limits.y0,W.limits.x0,W.limits.x1,W.limits.y1);
 }
 
@@ -54,6 +54,10 @@ int is_alive(world w, int x, int y){
     return next->alive;
 }
 */
+
+int get_state(world w, int x, int y){
+    return 2;
+}
 
 
 //use: 

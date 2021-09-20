@@ -2,7 +2,7 @@
 #include "ppm_img.h"
 
 int main(int argc, char* argv[]){
-    world W = {new_cell(1,0,0,false)};
+    world W = {new_cell(1,0,0,false),{0,0,1,1}};
 
     display_cell(*W.root);
     printf(" # Adding children to Cell (0,0) lvl 1\n------------------\n");
