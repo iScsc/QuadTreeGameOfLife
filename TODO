@@ -1,0 +1,9 @@
+TODO:
+
+- complete universe.c to have every needed func to simulate the GoL
+- test universe.c via test-universe.c complete test !
+- implement loading from a .txt
+- testSDL implementation with diff resolution etc
+- implement some GUI: Generation, top lvl, nb alive cells, play/pause, speed, editor mode ?
+- implement the universe evolution
+
