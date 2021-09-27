@@ -43,6 +43,7 @@ change is state
     - can need to expand bounds (change_root) then change_state
 */
 
+
 //init:
 
 cell* new_cell(int level,int x,int y,bool alive);
