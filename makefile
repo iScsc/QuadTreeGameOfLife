@@ -36,6 +36,10 @@ test-universe: test-universe.o universe.o ppm_img.o
 	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
 	./$@
 
+test-ppm-img: test-ppm-img.o universe.o ppm_img.o
+	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
+	./$@
+
 app: app.o universe.o graphic_interface.o
 	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
 	./$@
@@ -43,7 +47,7 @@ app: app.o universe.o graphic_interface.o
 compile-all: \
 	     	
 
-ALL_TESTS = test-universe
+ALL_TESTS = test-universe test-ppm-img
 
 launch-tests: $(ALL_TESTS)
 	for x in $(ALL_TESTS); do ./$$x --all; done
