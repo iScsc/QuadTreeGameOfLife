@@ -19,10 +19,10 @@ cell** make_children(cell parent){
 
     cell **children = malloc(sizeof(cell*)*4);
 
-    children[0] = new_cell(parent.level-1, xs[0], ys[0], parent.alive);
-    children[1] = new_cell(parent.level-1, xs[1], ys[0], parent.alive);
-    children[2] = new_cell(parent.level-1, xs[0], ys[1], parent.alive);
-    children[3] = new_cell(parent.level-1, xs[1], ys[1], parent.alive);
+    children[0] = new_cell(lvl, xs[0], ys[0], parent.alive);
+    children[1] = new_cell(lvl, xs[1], ys[0], parent.alive);
+    children[2] = new_cell(lvl, xs[0], ys[1], parent.alive);
+    children[3] = new_cell(lvl, xs[1], ys[1], parent.alive);
 
     return children;
 }
@@ -62,13 +62,24 @@ cell* find_cell(world w, int x, int y){
     cell* next = w.root;
     while(next->children != NULL){
         int index = (x < (next->children[3])->x ? 0 : 1) + (y < (next->children[3])->y ? 0 : 2);
+        //printf("Lvl: %d ; Index: %d\n",next->level,index);
         next = next->children[index];
     }
     return next;
 }
 
-void change_state(world w, int x, int y, bool new_state){
+cell* find_and_create_cell(world w, int x, int y){
     cell* c = find_cell(w,x,y);
+    while(c->x != x || c->y != y){
+        c->children = make_children(*c);
+        int index = (x < (c->children[3])->x ? 0 : 1) + (y < (c->children[3])->y ? 0 : 2);
+        c = c->children[index];
+    }
+    return c;
+}
+
+void change_state(world w, int x, int y, bool new_state){
+    cell* c = find_and_create_cell(w,x,y);
     if(c==NULL){
         //introducing future change_root
         return;

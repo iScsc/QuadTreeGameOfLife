@@ -46,18 +46,18 @@ change is state
 
 //init:
 
-cell* new_cell(int level,int x,int y,bool alive);
+cell* new_cell(int level,int x,int y,bool alive); //TESTED
 
 //!!! only for test-universe: !!!
-cell** make_children(cell);
+cell** make_children(cell); //TESTED
 
 
 
 //display:
 
-void display_cell(cell);
+void display_cell(cell); //TESTED
 
-void display_universe(world);
+void display_universe(world); //TESTED
 
 //checks:
 /*
@@ -69,16 +69,20 @@ void display_universe(world);
     2 outside borders so no
 */
 
-int off_limits(world w, int x, int y);
+int off_limits(world w, int x, int y); //TESTED
 
-int get_state(world w, int x, int y);
+int get_state(world w, int x, int y); //TESTED
 
 //accesses and changes:
 
-cell* find_cell(world w, int x, int y);
+cell* find_cell(world w, int x, int y); //TESTED
 
 void change_state(world w, int x, int y, bool new_state);
 
 void change_root(world* w, int old_root_location);
+
+//cleaning
+
+void remove_branch(world* w,int x,int y);
 
 #endif
