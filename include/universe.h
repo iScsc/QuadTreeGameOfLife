@@ -77,11 +77,13 @@ int get_state(world w, int x, int y); //TESTED
 
 cell* find_cell(world w, int x, int y); //TESTED
 
-void change_state(world w, int x, int y, bool new_state);
+void change_state(world* p_w, int x, int y, bool new_state); //TESTED
 
-void change_root(world* w, int old_root_location);
+void change_root(world* p_w, int old_root_location);
 
-//cleaning
+void update_bounds(world* p_w);
+
+//cleaning :
 
 void remove_branch(world* w,int x,int y);
 

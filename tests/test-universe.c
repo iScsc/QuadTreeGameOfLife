@@ -45,20 +45,24 @@ int main(int argc, char* argv[]){
     printf("\nTesting get_state (W boundaries are 0 3 0 3 (root lvl 2))\n");
     printf("Point (0,0): %d\nPoint (-1,0): %d\nPoint (2,1): %d\n",
     get_state(W,0,0),get_state(W,-1,0),get_state(W,2,1));
-    printf("------------------\n # Testing change_state on existing cells\n");
-    change_state(W,0,3,true);
-    change_state(W,1,1,true);
-    change_state(W,3,0,false);
+
+    printf("------------------\n # Testing change_state on INSIDE cells but not-only EXISTING\
+ (some lvl n parents don't have lvl n-1 children)\n");
+    change_state(&W,0,2,true);
+    change_state(&W,0,3,true);
+    change_state(&W,1,1,true);
+    change_state(&W,3,0,false);
     
     printf(" Printing .ppm...\n");
-
     print_ppm_img("W_rlvl2_test_change_state",W);
-
     printf(" ... printed\n");
 
-    printf("------------------\n # Testing change_state on NON-existing cells\n");
-
+    /*printf("------------------\n # Testing change_state on OUTSIDE cells - change_root\n");
+    change_state(&W,-1,-1,true);
     
+    printf(" Printing .ppm...\n");
+    print_ppm_img("W_rlvl2_test_change_root",W);
+    printf(" ... printed\n");*/
 
     return 0;
 }

@@ -70,7 +70,7 @@ cell* find_cell(world w, int x, int y){
 
 cell* find_and_create_cell(world w, int x, int y){
     cell* c = find_cell(w,x,y);
-    while(c->x != x || c->y != y){
+    while(c->x != x || c->y != y || c->level != 0){
         c->children = make_children(*c);
         int index = (x < (c->children[3])->x ? 0 : 1) + (y < (c->children[3])->y ? 0 : 2);
         c = c->children[index];
@@ -78,12 +78,51 @@ cell* find_and_create_cell(world w, int x, int y){
     return c;
 }
 
-void change_state(world w, int x, int y, bool new_state){
-    cell* c = find_and_create_cell(w,x,y);
+void change_state(world* p_w, int x, int y, bool new_state){
+    cell* c = find_and_create_cell(*p_w,x,y);
     if(c==NULL){
-        //introducing future change_root
+        cell old_root = *(p_w->root); //NO POINTER, only get not set
+        int old_root_location = (x < old_root.x ? 1 : 0) + (y < old_root.y ? 2 : 1);
+        
+        change_root(p_w,old_root_location);
+        c = find_and_create_cell(*p_w,x,y);
+
+        if(c==NULL){
+            fprintf(stderr, "change_root didn't worked !\n\tCan't find the cell %d,%d\
+ after changing root from %d,%d lvl%d to %d,%d lvl%d\n", x, y,\
+  old_root.x, old_root.y, old_root.level,\
+  p_w->root->x, p_w->root->y, p_w->root->level);
+            exit(EXIT_FAILURE);
+            return;
+        }
         return;
     }
     c->alive = new_state;
+    return;
+}
+
+void change_root(world* p_w, int old_root_location){
+    cell* old_root = p_w->root;
+    int new_x = (old_root_location % 2 == 0 ? old_root->x : old_root->x - pow(2,old_root->level));
+    int new_y = (old_root_location < 2 ? old_root->y : old_root->y - pow(2,old_root->level));
+
+    cell* new_root = new_cell(old_root->level+1, new_x, new_y,false);
+
+    new_root->children = make_children(*new_root);
+    new_root->children[old_root_location] = old_root;
+
+    p_w->root = new_root;
+
+    update_bounds(p_w);
+    return;
+}
+
+void update_bounds(world* p_w){
+    cell root = *(p_w->root);
+    int size = pow(2,root.level);
+    p_w->limits.x0 = root.x;
+    p_w->limits.y0 = root.y;
+    p_w->limits.x1 = root.x+size-1;
+    p_w->limits.y1 = root.y+size-1;
     return;
 }
