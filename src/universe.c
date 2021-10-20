@@ -70,7 +70,7 @@ cell* find_cell(world w, int x, int y){
 
 cell* find_and_create_cell(world w, int x, int y){
     cell* c = find_cell(w,x,y);
-    while(c->x != x || c->y != y || c->level != 0){
+    while(c!=NULL &&(c->x != x || c->y != y || c->level != 0)){
         c->children = make_children(*c);
         int index = (x < (c->children[3])->x ? 0 : 1) + (y < (c->children[3])->y ? 0 : 2);
         c = c->children[index];
@@ -80,13 +80,18 @@ cell* find_and_create_cell(world w, int x, int y){
 
 void change_state(world* p_w, int x, int y, bool new_state){
     cell* c = find_and_create_cell(*p_w,x,y);
-    if(c==NULL){
+    while(c==NULL){
+        //RQ: in the case of a GoL, the while is useless, the changed 
+        //cells will always be neighboors of world bounds so change state while never have to be recursive
+
         cell old_root = *(p_w->root); //NO POINTER, only get not set
-        int old_root_location = (x < old_root.x ? 1 : 0) + (y < old_root.y ? 2 : 1);
+        int old_root_location = (x < old_root.x ? 1 : 0) + (y < old_root.y ? 2 : 0);
         
         change_root(p_w,old_root_location);
+        //display_universe(*p_w);
         c = find_and_create_cell(*p_w,x,y);
-
+        
+        /*
         if(c==NULL){
             fprintf(stderr, "change_root didn't worked !\n\tCan't find the cell %d,%d\
  after changing root from %d,%d lvl%d to %d,%d lvl%d\n", x, y,\
@@ -95,9 +100,11 @@ void change_state(world* p_w, int x, int y, bool new_state){
             exit(EXIT_FAILURE);
             return;
         }
-        return;
+        */
     }
     c->alive = new_state;
+
+    //compressibility(p_w,x,y,1);
     return;
 }
 
@@ -126,3 +133,6 @@ void update_bounds(world* p_w){
     p_w->limits.y1 = root.y+size-1;
     return;
 }
+
+//cleaning:
+

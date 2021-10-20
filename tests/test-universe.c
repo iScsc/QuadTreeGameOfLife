@@ -57,12 +57,15 @@ int main(int argc, char* argv[]){
     print_ppm_img("W_rlvl2_test_change_state",W);
     printf(" ... printed\n");
 
-    /*printf("------------------\n # Testing change_state on OUTSIDE cells - change_root\n");
-    change_state(&W,-1,-1,true);
+    printf("------------------\n # Testing change_state on OUTSIDE cells - change_root\n");
+    //change_root(&W,3);
+    change_state(&W,-5,-1,true);
+    
+    display_universe(W);
     
     printf(" Printing .ppm...\n");
     print_ppm_img("W_rlvl2_test_change_root",W);
-    printf(" ... printed\n");*/
+    printf(" ... printed\n");
 
     return 0;
 }
