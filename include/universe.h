@@ -78,6 +78,8 @@ void compressibility(world* p_w, int x,int y,int lvl);
 
 cell* find_cell(world w, int x, int y); //TESTED
 
+cell* find_and_create_cell(world w, int x, int y); //TESTED
+
 void change_state(world* p_w, int x, int y, bool new_state); //TESTED
 
 void change_root(world* p_w, int old_root_location); //TESTED
@@ -86,6 +88,8 @@ void update_bounds(world* p_w);  //TESTED
 
 //cleaning :
 
-void remove_branch(world* w,int x,int y, int lvl);
+void remove_descendants(world w,int x,int y, int lvl);
+
+void free_cell(world w,int x,int y);
 
 #endif

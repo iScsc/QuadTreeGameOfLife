@@ -136,3 +136,25 @@ void update_bounds(world* p_w){
 
 //cleaning:
 
+//remove_descendants delete every descendants (of level = lvl-1, lvl-2 ..., 0) of the node x,y,lvl but keep this node 
+void remove_descendants(world w,int x,int y, int lvl){
+    /*
+    cell 
+    return;*/
+}
+
+//free_cell has a security not to free a parent cell AND to free the cell.children before freeing the cell
+void free_cell(world w,int x,int y){
+    cell* to_free = find_cell(w,x,y);
+    if(to_free->children == NULL){
+        free(to_free);
+        return;
+    }
+    else if(to_free->children[0] != NULL || to_free->children[1] != NULL || to_free->children[2] != NULL || to_free->children[3] != NULL){
+        fprintf(stderr, "ERROR : Attempt to free a parent-cell !\n       Cell(%d,%d) has children !\n",to_free->x,to_free->y);
+        return;
+    }
+    free(to_free->children);
+    free(to_free);
+    return;
+}
