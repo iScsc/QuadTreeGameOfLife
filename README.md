@@ -30,7 +30,7 @@ struct cell{ //origin top left, y increasing down, x incr. right
 ```
 Remarks:
 - ONLY cells of level 0 are real Conway's cells
-- a cell of level n has a size of 2^n
+- a cell of level n has a size of 2^n in the universe but needs the same memory space that a lvl 0
 - **level** of the root increases as the universe expands, at any time the size of the universe is 2^root.level
 - the **alive** variable is taken into account only if the cell hasn't any children, then the value of **alive** is associated to the whole cell and its non-existing children.
 - A cell where level != 0 has a size != 1 so can't have real coordinates. So the coord of a level n cell are the coord of its first child (top left).
