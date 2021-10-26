@@ -2,7 +2,7 @@
 #include "ppm_img.h"
 
 int main(int argc, char* argv[]){
-
+    
     //constructing a World via universe.c
     world W = {new_cell(2,0,0,false),{0,0,3,3}};
     //W : root lvl 2, no children
@@ -66,6 +66,10 @@ int main(int argc, char* argv[]){
     printf(" Printing .ppm...\n");
     print_ppm_img("W_rlvl2_test_change_root",W);
     printf(" ... printed\n");
-
+    
+    printf("------------------\n # Testing remove_descendants\n");
+    
+    remove_descendants(W,W.root->x,W.root->y,W.root->level);
+    free(W.root);
     return 0;
 }

@@ -50,8 +50,6 @@ cell* new_cell(int level,int x,int y,bool alive); //TESTED
 //!!! only for test-universe: !!!
 cell** make_children(cell); //TESTED
 
-
-
 //display:
 
 void display_cell(cell); //TESTED
@@ -88,7 +86,9 @@ void update_bounds(world* p_w);  //TESTED
 
 //cleaning :
 
-void remove_descendants(world w,int x,int y, int lvl);
+void rec_freeing(cell* c); //TESTED
+
+void remove_descendants(world w,int x,int y, int lvl);  //TESTED
 
 void free_cell(world w,int x,int y);
 

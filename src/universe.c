@@ -123,6 +123,7 @@ void change_root(world* p_w, int old_root_location){
     cell* new_root = new_cell(old_root->level+1, new_x, new_y,false);
 
     new_root->children = make_children(*new_root);
+    free(new_root->children[old_root_location]);
     new_root->children[old_root_location] = old_root;
 
     p_w->root = new_root;
@@ -146,6 +147,7 @@ void update_bounds(world* p_w){
 void rec_freeing(cell* c){
     if(c->children == NULL){
         free(c);
+        return;
     }
     for(int i = 0;i<4;i++){
         rec_freeing(c->children[i]);
@@ -158,6 +160,9 @@ void rec_freeing(cell* c){
 //remove_descendants delete every descendants (of level = lvl-1, lvl-2 ..., 0) of the node x,y,lvl but keep this node 
 void remove_descendants(world w,int x,int y, int lvl){
     cell* to_free = find_cell_by_lvl(w,x,y,lvl);
+    if(to_free->children == NULL){
+        return;
+    }
     for (int i = 0; i < 4; i++){
         rec_freeing(to_free->children[i]);
     }
@@ -165,7 +170,7 @@ void remove_descendants(world w,int x,int y, int lvl){
     return;
 }
 
-//free_cell has a security not to free a parent cell AND to free the cell.children before freeing the cell
+//free_cell has a security to not-free a parent cell AND to free the cell.children before freeing the cell
 void free_cell(world w,int x,int y){
     cell* to_free = find_cell(w,x,y);
     if(to_free->children == NULL){
