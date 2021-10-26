@@ -55,17 +55,24 @@ int get_state(world w, int x, int y){
 
 //accesses and changes:
 
-cell* find_cell(world w, int x, int y){
+cell* find_cell_by_lvl(world w, int x, int y, int lvl){
     if(off_limits(w,x,y)){
         return NULL;
     }
     cell* next = w.root;
     while(next->children != NULL){
+        if(lvl == next->level){
+            return next;
+        }
         int index = (x < (next->children[3])->x ? 0 : 1) + (y < (next->children[3])->y ? 0 : 2);
         //printf("Lvl: %d ; Index: %d\n",next->level,index);
         next = next->children[index];
     }
     return next;
+}
+
+cell* find_cell(world w, int x, int y){
+    return find_cell_by_lvl(w,x,y,-1);
 }
 
 cell* find_and_create_cell(world w, int x, int y){
@@ -136,11 +143,26 @@ void update_bounds(world* p_w){
 
 //cleaning:
 
+void rec_freeing(cell* c){
+    if(c->children == NULL){
+        free(c);
+    }
+    for(int i = 0;i<4;i++){
+        rec_freeing(c->children[i]);
+    }
+    free(c->children);
+    free(c);
+    return;
+}
+
 //remove_descendants delete every descendants (of level = lvl-1, lvl-2 ..., 0) of the node x,y,lvl but keep this node 
 void remove_descendants(world w,int x,int y, int lvl){
-    /*
-    cell 
-    return;*/
+    cell* to_free = find_cell_by_lvl(w,x,y,lvl);
+    for (int i = 0; i < 4; i++){
+        rec_freeing(to_free->children[i]);
+    }
+    free(to_free->children);
+    return;
 }
 
 //free_cell has a security not to free a parent cell AND to free the cell.children before freeing the cell
