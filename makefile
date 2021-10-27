@@ -1,7 +1,7 @@
 _DEBUG = $(if $(DEBUG),-D DEBUG,)
 _OPT = $(if $(OPT),-O3 -flto,)
 CC = gcc
-CFLAGS = -g -std=c99 -Wall $(_OPT) -I include/ $(_DEBUG) -iprefix bin/
+CFLAGS = -g -std=c99 -Wall $(_OPT) -I include/ $(_DEBUG)
 CLIB = -lm -lSDL2main -lSDL2 #for libs
 CEXEC = out/
 
@@ -35,16 +35,19 @@ random-tests: random_tests.o
 check-syntax: universe.o test-universe.o ppm_img.o graphic_interface.o
 
 test-universe: test-universe.o universe.o ppm_img.o
-	$(CC) $(CFLAGS) -o $(CEXEC)$@ $^ $(CLIB)
-	./$(CEXEC)$@
+	- mkdir $(CEXEC)
+	- $(CC) $(CFLAGS) -o $(CEXEC)$@ $^ $(CLIB)
+	- ./$(CEXEC)$@
 
 test-ppm-img: test-ppm-img.o universe.o ppm_img.o
-	$(CC) $(CFLAGS) -o $(CEXEC)$@ $^ $(CLIB)
-	./$(CEXEC)$@
+	- mkdir $(CEXEC)
+	- $(CC) $(CFLAGS) -o $(CEXEC)$@ $^ $(CLIB)
+	- ./$(CEXEC)$@
 
 app: app.o universe.o graphic_interface.o
-	$(CC) $(CFLAGS) -o $(CEXEC)$@ $^ $(CLIB)
-	./$(CEXEC)$@
+	- mkdir $(CEXEC)
+	- $(CC) $(CFLAGS) -o $(CEXEC)$@ $^ $(CLIB)
+	- ./$(CEXEC)$@
 
 compile-all: \
 	     	
