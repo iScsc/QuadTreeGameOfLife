@@ -27,6 +27,9 @@ clean-img:
 %.o: ./tests/%.c
 	$(CC) $(CFLAGS) -o $@ -c $^ $(CLIB)
 
+%.o: ./lib/%.c
+	$(CC) $(CFLAGS) -o $@ -c $^ $(CLIB)
+
 #random C tests:
 random-tests: random_tests.o
 	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
@@ -44,7 +47,7 @@ test-ppm-img: test-ppm-img.o universe.o ppm_img.o
 	- $(CC) $(CFLAGS) -o $(CEXEC)$@ $^ $(CLIB)
 	- ./$(CEXEC)$@
 
-app: app.o universe.o graphic_interface.o
+app: app.o universe.o graphic_interface.o sdl_lib.o
 	- mkdir $(CEXEC)
 	- $(CC) $(CFLAGS) -o $(CEXEC)$@ $^ $(CLIB)
 	- ./$(CEXEC)$@
@@ -56,6 +59,7 @@ ALL_TESTS = test-universe test-ppm-img
 
 launch-tests: $(ALL_TESTS)
 	for x in $(ALL_TESTS); do ./$(CEXEC)$$x --all; done
+
 
 # misc
 WIDTH=1024

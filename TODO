@@ -1,9 +1,25 @@
 TODO:
 
-- complete universe.c to have every needed func to simulate the GoL
-X test universe.c via test-universe.c complete test !
-- implement loading from a .txt
-- testSDL implementation with diff resolution etc
+app.c:
+X timer and FPS
+X pause
+- clic to change state (pos of the mouse)
+- grid drawing option
+- option to draw coords on cell
+- more option via keys
+- Timer drawing
 - implement some GUI: Generation, top lvl, nb alive cells, play/pause, speed, editor mode ?
+- testSDL implementation with diff resolution etc
+
+universe.c
+- complete universe.c -->
+   - implement compressibility and compress tree
+   - that's all...
+X test universe.c via test-universe.c complete test !
+
+misc:
+- implement loading from a .txt
+
+GoL:
 - implement the universe evolution
 
