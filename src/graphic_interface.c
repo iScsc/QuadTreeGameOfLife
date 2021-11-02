@@ -1,14 +1,17 @@
 #include "graphic_interface.h"
 
 void through_tree(cell* c,SDL_Renderer* p_renderer,int k,int orig_x,int orig_y){
+    int size = k*pow(2,c->level);
+    SDL_Rect rect = {k * (c->x - orig_x), k * (c->y - orig_y), size, size};
     if(c->children == NULL){
         if(!c->alive){
+            SDL_RenderDrawRect(p_renderer,&rect);
             return;
         }
-        int size = k*pow(2,c->level);
-        SDL_Rect rect = {k * (c->x - orig_x), k * (c->y - orig_y), size, size};
         SDL_RenderFillRect(p_renderer,&rect);
         return;
+    }else{
+        SDL_RenderDrawRect(p_renderer,&rect);
     }
     through_tree(c->children[0],p_renderer,k, orig_x, orig_y);
     through_tree(c->children[1],p_renderer,k, orig_x, orig_y);
@@ -28,7 +31,8 @@ void render_universe(world W, SDL_Renderer* p_renderer, int w, int h, int* _exit
     return;
 }
 
-void _initialize(SDL_Window** p_app_window, SDL_Renderer** p_renderer, char title[], int SCREEN_WIDTH, int SCREEN_HEIGHT, Uint8 FPS, Uint16 DELAY, int* _exit){
+void _initialize(SDL_Window** p_app_window, SDL_Renderer** p_renderer, char title[], int SCREEN_WIDTH,\
+ int SCREEN_HEIGHT, Uint8 FPS, Uint16 DELAY, int* _exit){
     //init msg
     printf("\nStarting app.c ...\nParameters:\n  Initial screen Width: %d   Height: %d\n\
   FPS: %d  Delay between frames: %dms\n-------------------------------------\n",SCREEN_WIDTH,SCREEN_HEIGHT,FPS,DELAY);
@@ -41,9 +45,9 @@ void _initialize(SDL_Window** p_app_window, SDL_Renderer** p_renderer, char titl
     }
 
     *p_app_window = SDL_CreateWindow(title,
-    SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED
+    0, SDL_WINDOWPOS_CENTERED
     ,SCREEN_WIDTH,SCREEN_HEIGHT ,
-    SDL_WINDOW_SHOWN); //a window ratio 1:1
+    SDL_WINDOW_SHOWN);
 
     if (*p_app_window == NULL){         
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "[DEBUG] > %s", SDL_GetError());         
@@ -81,27 +85,48 @@ void modify(world* p_w){
     change_state(p_w,x,y,true);
 }
 
-void _event(SDL_Event* p_events, bool* p_isOpen, bool* p_pause, world* p_w){
+void help_menu(){
+    printf("\nHELP:\n\
+    - q for quiting\n\
+    - m to change a cell state to TRUE \n\
+    - SPACE to change mouse mode\n\
+    - p to play/pause\n\
+MOUSE MODE:\n\
+    - 0 : COORD\n\
+    - 1 : EDIT\n");
+    return;
+}
+
+void _event(SDL_Event* p_events, bool* p_isOpen, bool* p_pause, int* mouse_mode, world* p_w){
     while (SDL_PollEvent(p_events)){
         switch (p_events->type)
         {
             case SDL_MOUSEBUTTONUP:
                 printf("mouse clicked\n"); //testing events
                 break;
-            case SDL_QUIT:
+            case SDL_QUIT:   //red cross, close the window
                 *p_isOpen = false;
                 break;
             case SDL_KEYUP:
                 switch (p_events->key.keysym.sym)
                 {
-                    case SDLK_SPACE:
+                    case SDLK_p:         //play/pause
                         *p_pause = !(*p_pause);
                         break;
-                    case SDLK_m:
+                    case SDLK_SPACE:     //change mouse mode
+                        *mouse_mode = (*mouse_mode + 1) % 2;
+                        printf("Mouse Mode: %d\n",mouse_mode);
+                        break;
+                    case SDLK_m:         //modify a cell state to true //!!! nof final
                         modify(p_w);
                         break;
-                    case SDLK_q:
+                    case SDLK_q:         //close the window
                         *p_isOpen = false;
+                        break;
+                    case SDLK_h:         // display help
+                        *p_pause = true;
+                        help_menu();
+                        break;
                     default:
                         break;
                 }
