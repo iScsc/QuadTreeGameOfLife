@@ -13,9 +13,10 @@ This project aims to implement the GoL using **QuadTree** to store cells and the
 ## 2 Structure. [[toc](https://github.com/Supaero-Computer-Science-Club/QuadTreeGameOfLife)]
 The interesting aspect of the project is the way the Conway's Universe is stored.
 Indeed it uses QuadTree, a classic tree implementation but with 4 children and **only not-uniform branches** are developed which allow to reduce the needed memory to store the universe while preserving a quick access to a cell ( O(log(n)) ). See an example here:
-| ![quadtree.png](https://github.com/Supaero-Computer-Science-Club/QuadTreeGameOfLife/res/quadtree.png) | 
+| ![quadtree.png](https://github.com/Supaero-Computer-Science-Club/QuadTreeGameOfLife/blob/main/res/quadtree.png) | 
 |:--:| 
 | *A Quadtree to store and sort points* |
+
 The structure of the cells used is :
 ```C
 struct cell{ //origin top left, y increasing down, x incr. right 
@@ -39,4 +40,5 @@ To run the program you'll need the `gcc` compiler and the `SDL` library. You can
 Then, run `make app` in the root folder of the project.
 *NB: to re-run the program just type `./out/app`, files are already compiled.*
 To clean the repository you can run `make clean`.
+
 
