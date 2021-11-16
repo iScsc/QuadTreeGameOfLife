@@ -41,3 +41,4 @@ Then, run `make app` in the root folder of the project.
 *NB: to re-run the program just type `./out/app`, files are already compiled.*
 To clean the repository you can run `make clean`.
 
+
