@@ -2,6 +2,6 @@
 #define APP_H
 
 #include <SDL2/SDL.h>
-#include "universe_rendering.h"
+#include "graphic_interface.h"
 
 #endif

@@ -1,4 +1,4 @@
-#include "universe_rendering.h"
+#include "graphic_interface.h"
 
 void through_tree(cell* c,SDL_Renderer* p_renderer,int k){
     if(c->children == NULL){

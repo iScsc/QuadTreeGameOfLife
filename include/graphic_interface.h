@@ -1,5 +1,5 @@
-#ifndef UNIVERSE_RENDERING_H
-#define UNIVERSE_RENDERING_H
+#ifndef GRAPHIC_INTERFACE_H
+#define GRAPHIC_INTERFACE_H
 
 #include <SDL2/SDL.h>
 #include "universe.h"
