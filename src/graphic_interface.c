@@ -92,13 +92,15 @@ void _draw(SDL_Window* app_window, SDL_Renderer* renderer, world W, int* _exit){
     }
 
     //test
+    /*
     SDL_Rect rect = {100,100,50,50};
-    SDL_RenderFillRect(renderer,&rect);
+    SDL_RenderFillRect(renderer,&rect);*/
 
     return;
 }
 
 void _quit(SDL_Window* app_window, SDL_Renderer* renderer){
+    
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(app_window);
     SDL_Quit();

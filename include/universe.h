@@ -27,7 +27,6 @@ struct bounds{
     int y1;
 };
 
-
 struct world{
     cell* root;
     bounds limits;
