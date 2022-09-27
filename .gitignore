@@ -58,3 +58,4 @@ dkms.conf
 # Output 
 *.ppm
 *.mp4
+out/
