@@ -3,6 +3,7 @@ _OPT = $(if $(OPT),-O3 -flto,)
 CC = gcc
 CFLAGS = -g -std=c99 -Wall $(_OPT) -I include/ $(_DEBUG) -iprefix bin/
 CLIB = -lm -lSDL2main -lSDL2 #for libs
+CEXEC = out/
 
 .PHONY: clean clean-img doc check-syntax compile-all launch-tests video
 
@@ -12,6 +13,7 @@ doc:
 
 # rule to remove all .o files and all executables
 clean:
+	- make clean-img
 	- rm -f *.o
 	- find . -executable -type f -delete
 
@@ -33,16 +35,16 @@ random-tests: random_tests.o
 check-syntax: universe.o test-universe.o ppm_img.o graphic_interface.o
 
 test-universe: test-universe.o universe.o ppm_img.o
-	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
-	./$@
+	$(CC) $(CFLAGS) -o $(CEXEC)$@ $^ $(CLIB)
+	./$(CEXEC)$@
 
 test-ppm-img: test-ppm-img.o universe.o ppm_img.o
-	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
-	./$@
+	$(CC) $(CFLAGS) -o $(CEXEC)$@ $^ $(CLIB)
+	./$(CEXEC)$@
 
 app: app.o universe.o graphic_interface.o
-	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
-	./$@
+	$(CC) $(CFLAGS) -o $(CEXEC)$@ $^ $(CLIB)
+	./$(CEXEC)$@
 
 compile-all: \
 	     	
@@ -50,7 +52,7 @@ compile-all: \
 ALL_TESTS = test-universe test-ppm-img
 
 launch-tests: $(ALL_TESTS)
-	for x in $(ALL_TESTS); do ./$$x --all; done
+	for x in $(ALL_TESTS); do ./$(CEXEC)$$x --all; done
 
 # misc
 WIDTH=1024
