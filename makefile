@@ -1,8 +1,8 @@
 _DEBUG = $(if $(DEBUG),-D DEBUG,)
 _OPT = $(if $(OPT),-O3 -flto,)
 CC = gcc
-CFLAGS = -g -std=c99 -Wall $(_OPT) -I./headers $(_DEBUG)
-MFLAGS = -lm #for maths
+CFLAGS = -g -std=c99 -Wall $(_OPT) -I include/ $(_DEBUG) -iprefix bin/
+CLIB = -lm -lSDL2main -lSDL2 #for libs
 
 .PHONY: clean clean-img doc check-syntax compile-all launch-tests video
 
@@ -20,20 +20,25 @@ clean-img:
 	- rm out/*.ppm video.mp4
 
 %.o: ./src/%.c
-	$(CC) $(CFLAGS) -o $@ -c $^
+	$(CC) $(CFLAGS) -o $@ -c $^ $(CLIB)
 
 %.o: ./tests/%.c
-	$(CC) $(CFLAGS) -o $@ -c $^
+	$(CC) $(CFLAGS) -o $@ -c $^ $(CLIB)
 
 #random C tests:
 random-tests: random_tests.o
-	$(CC) $(CFLAGS) -o $@ $^ $(MFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
 # ---------
 
 check-syntax: universe.o test-universe.o ppm_img.o
 
 test-universe: test-universe.o universe.o ppm_img.o
-	$(CC) $(CFLAGS) -o $@ $^ $(MFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
+	./$@
+
+app: app.o universe.o universe_rendering.o
+	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
+	./$@
 
 compile-all: \
 	     	
