@@ -30,13 +30,13 @@ random-tests: random_tests.o
 	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
 # ---------
 
-check-syntax: universe.o test-universe.o ppm_img.o
+check-syntax: universe.o test-universe.o ppm_img.o graphic_interface.o
 
 test-universe: test-universe.o universe.o ppm_img.o
 	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
 	./$@
 
-app: app.o universe.o universe_rendering.o
+app: app.o universe.o graphic_interface.o
 	$(CC) $(CFLAGS) -o $@ $^ $(CLIB)
 	./$@
 
