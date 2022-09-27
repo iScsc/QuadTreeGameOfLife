@@ -16,13 +16,14 @@ void print_ppm_img(char name[],world W){
 
     fprintf(p_img,"P3\n%d %d\n%d\n",(int)pow(2,W.root->level),(int)pow(2,W.root->level),1);
 
-    for (int j = W.limits.y0; j < W.limits.y1; j++) {
-        for(int i = W.limits.x0; i<W.limits.x1; i++){
+    for (int j = W.limits.y0; j <= W.limits.y1; j++) {
+        for(int i = W.limits.x0; i <= W.limits.x1; i++){
             int color = 1;
+            //printf("%d,%d\n",i,j);
             if(get_state(W,i,j)==1){
                 color = 0;
             }
-            fprintf(p_img, "%3d %3d %3d ", color,color,color);
+            fprintf(p_img, "%1d %1d %1d ", color,color,color);
         }
         fprintf(p_img,"\n");
 

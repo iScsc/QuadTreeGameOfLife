@@ -35,30 +35,44 @@ void display_cell(cell c){
 }
 
 void display_universe(world W){
-    printf("WORLD:\n\tTop level: %d\n\tBounds:\n\t%d\n\t____\n%d|\t\t%d\n\t____\n\t%d\n",
+    printf("WORLD:\n\tTop level: %d\n\tBounds:\n\t%3d\n\t_____\n   |\t\t|\n%3d|\t\t|%3d\n   |\t\t|\n\t_____\n\t%3d\n",
     W.root->level,W.limits.y0,W.limits.x0,W.limits.x1,W.limits.y1);
 }
 
 //checks:
-/*
-int is_alive(world w, int x, int y){
-    int size = (int)pow(2,w.root->level);
-    if(x < w.root->x || x > w.root->x+size-1 || y < w.root->y || y > w.root->y+size-1){
-        return 2;
+
+int off_limits(world w, int x, int y){
+    if(x < w.limits.x0 || x > w.limits.x1 || y < w.limits.y0 || y > w.limits.y1){
+        return 1;
+    }
+    return 0;
+}
+
+int get_state(world w, int x, int y){
+    cell* c = find_cell(w,x,y);
+    return (c==NULL ? 2 : c->alive);
+}
+
+//accesses and changes:
+
+cell* find_cell(world w, int x, int y){
+    if(off_limits(w,x,y)){
+        return NULL;
     }
     cell* next = w.root;
     while(next->children != NULL){
-        int index = (x < (next->children+3)->x ? 0 : 1) + (y < (next->children+3)->y ? 0 : 2); //à tester mdr
-        next = next->children+index;
+        int index = (x < (next->children[3])->x ? 0 : 1) + (y < (next->children[3])->y ? 0 : 2);
+        next = next->children[index];
     }
-    return next->alive;
-}
-*/
-
-int get_state(world w, int x, int y){
-    return 2;
+    return next;
 }
 
-
-//use: 
-
+void change_state(world w, int x, int y, bool new_state){
+    cell* c = find_cell(w,x,y);
+    if(c==NULL){
+        //introducing future change_root
+        return;
+    }
+    c->alive = new_state;
+    return;
+}

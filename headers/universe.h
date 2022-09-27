@@ -16,7 +16,8 @@ struct cell{ //origin top left, y increasing down, x incr. right
     int y;
     bool alive;
     cell** children; //children is either NULL or a 4 not-NULL-pointers array can't be [NULL,cell,cell,NULL]
-    //format: [top left, tr, bl, br]
+    //format: [top left, tr , bl , br ]
+    //coord : [   0 0  , 1 0, 0 1, 1 1]
 };
 
 struct bounds{
@@ -46,7 +47,7 @@ change is state
 
 cell* new_cell(int level,int x,int y,bool alive);
 
-//!!! to be deleted :!!!
+//!!! only for test-universe: !!!
 cell** make_children(cell);
 
 
@@ -66,6 +67,8 @@ void display_universe(world);
     1 yes
     2 outside borders so no
 */
+
+int off_limits(world w, int x, int y);
 
 int get_state(world w, int x, int y);
 
